@@ -9,10 +9,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -23,7 +21,7 @@ public class BasketService {
     public BasketService(ProductBasket productBasket, StorageService storageService) {
         this.productBasket = productBasket;
         this.storageService = storageService;
-            }
+    }
 
     public void addProductToBasket(/*@Qualifier("addToBasket") */UUID id) {
         Optional<Product> product = storageService.getProductById(id);
@@ -34,14 +32,14 @@ public class BasketService {
         }
     }
 
-    public UserBasket getUserBasket(){
-      Map<UUID, Integer> basketMap = productBasket.getBasket();
-      List<BasketItem> basketItemList = basketMap.entrySet().stream()
-              .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(), map.getValue()))
-              .toList();
-      int total = basketItemList.stream().mapToInt(price -> price.getQuantity()*price.getProduct().getPrice())
-              .sum();
-      return new UserBasket(basketItemList);
+    public UserBasket getUserBasket() {
+        Map<UUID, Integer> basketMap = productBasket.getBasket();
+        List<BasketItem> basketItemList = basketMap.entrySet().stream()
+                .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(), map.getValue()))
+                .collect(Collectors.toCollection(()-> new ArrayList<BasketItem>()));
+        int total = basketItemList.stream().mapToInt(price -> price.getQuantity() * price.getProduct().getPrice())
+                .sum();
+        return new UserBasket(basketItemList);
     }
 
     public void printBasket() {
