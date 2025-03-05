@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Stream;
@@ -24,19 +25,25 @@ public class BasketService {
         this.storageService = storageService;
             }
 
-    public void addProductToBasket(@Qualifier("addToBasket") UUID id) {
+    public void addProductToBasket(/*@Qualifier("addToBasket") */UUID id) {
         Optional<Product> product = storageService.getProductById(id);
         if (product.isPresent() == false) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Product with ID " + id + " not found.");
         } else {
             productBasket.addToBasket(id);
         }
     }
 
-    public void printBasket() {
+    public UserBasket getUserBasket(){
+      Map<UUID, Integer> basketMap = productBasket.getBasket();
+      List<BasketItem> basketItemList = basketMap.entrySet().stream()
+              .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(), map.getValue()))
+              .toList();
+      int total = basketItemList.stream().mapToInt(price -> price.getQuantity()*price.getProduct().getPrice())
+              .sum();
+      return new UserBasket(basketItemList);
     }
 
-public UserBasket getUserBasket(){
-        return null;
-}
+    public void printBasket() {
+    }
 }
