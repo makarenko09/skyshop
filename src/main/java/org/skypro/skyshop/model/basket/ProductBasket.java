@@ -19,7 +19,7 @@ public class ProductBasket {
         if (basket.containsKey(id)) {
             basket.put(id, basket.get(id) + 1);
         } else {
-            basket.put(id, 0);
+            basket.put(id, 1);
         }
     }
 
