@@ -21,6 +21,11 @@ public class StorageService {
         this.dataStorage();
     }
 
+    public Optional<Product> getProductById(UUID id) {
+
+        return Optional.ofNullable(storageProducts.get(id));
+    }
+
     public Map<UUID, Product> getStorageProducts() {
         return storageProducts;
     }
