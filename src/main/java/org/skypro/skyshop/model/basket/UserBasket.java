@@ -7,15 +7,16 @@ import java.util.List;
         List<BasketItem> basketItemList;
         int total;
 
-        public UserBasket(List<BasketItem> basketItemList) {
+        public UserBasket(List<BasketItem> basketItemList, int total) {
             this.basketItemList = basketItemList;
-        }
+            this.total = total;
+                    }
 
         public List<BasketItem> getBasketItemList() {
             return basketItemList;
         }
 
-        public Integer getTotal() {
+        public int getTotal() {
             return total;
         }
     }

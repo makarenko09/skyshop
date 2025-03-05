@@ -37,9 +37,10 @@ public class BasketService {
         List<BasketItem> basketItemList = basketMap.entrySet().stream()
                 .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(), map.getValue()))
                 .collect(Collectors.toCollection(()-> new ArrayList<BasketItem>()));
-        int total = basketItemList.stream().mapToInt(price -> price.getQuantity() * price.getProduct().getPrice())
+        int total = basketItemList.stream()
+                .mapToInt(price -> price.getQuantity() * price.getProduct().getPrice())
                 .sum();
-        return new UserBasket(basketItemList);
+        return new UserBasket(basketItemList, total);
     }
 
     public void printBasket() {
