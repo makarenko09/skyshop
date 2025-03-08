@@ -6,8 +6,8 @@ import java.util.List;
 
 public final class BasketItem {
 
-Product product;
-int quantity;
+    private final Product product;
+    private final int quantity;
 
     public BasketItem(Product product, int quantity) {
         this.product = product;

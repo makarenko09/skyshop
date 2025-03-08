@@ -1,11 +1,13 @@
 package org.skypro.skyshop.model.basket;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
     public final class UserBasket {
 
-        List<BasketItem> basketItemList;
-        int total;
+        private final List<BasketItem> basketItemList;
+        private final int total;
 
         public UserBasket(List<BasketItem> basketItemList, int total) {
             this.basketItemList = basketItemList;
@@ -13,7 +15,7 @@ import java.util.List;
                     }
 
         public List<BasketItem> getBasketItemList() {
-            return basketItemList;
+            return Collections.unmodifiableList(basketItemList);
         }
 
         public int getTotal() {

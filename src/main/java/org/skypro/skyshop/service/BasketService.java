@@ -23,13 +23,9 @@ public class BasketService {
         this.storageService = storageService;
     }
 
-    public void addProductToBasket(/*@Qualifier("addToBasket") */UUID id) {
-        Optional<Product> product = storageService.getProductById(id);
-        if (product.isPresent() == false) {
-            throw new IllegalArgumentException("Product with ID " + id + " not found.");
-        } else {
+    public void addProductToBasket(UUID id) {
+        Product product = storageService.getProductById(id).orElseThrow(() -> new IllegalArgumentException("Product with ID " + id + " not found."));
             productBasket.addToBasket(id);
-        }
     }
 
     public UserBasket getUserBasket() {
@@ -43,6 +39,4 @@ public class BasketService {
         return new UserBasket(basketItemList, total);
     }
 
-    public void printBasket() {
-    }
 }
