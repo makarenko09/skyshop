@@ -4,14 +4,10 @@ import org.skypro.skyshop.model.basket.BasketItem;
 import org.skypro.skyshop.model.basket.ProductBasket;
 import org.skypro.skyshop.model.basket.UserBasket;
 import org.skypro.skyshop.model.product.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class BasketService {
@@ -24,14 +20,14 @@ public class BasketService {
     }
 
     public void addProductToBasket(UUID id) {
-        Product product = storageService.getProductById(id).orElseThrow(() -> new IllegalArgumentException("Product with ID " + id + " not found."));
+        Product product = storageService.getProductById(id).orElseThrow(() -> new NoSuchProductException());
             productBasket.addToBasket(id);
     }
 
     public UserBasket getUserBasket() {
         Map<UUID, Integer> basketMap = productBasket.getBasket();
         List<BasketItem> basketItemList = basketMap.entrySet().stream()
-                .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(), map.getValue()))
+                .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(() -> new NoSuchProductException()), map.getValue()))
                 .collect(Collectors.toCollection(()-> new ArrayList<BasketItem>()));
         int total = basketItemList.stream()
                 .mapToInt(price -> price.getQuantity() * price.getProduct().getPrice())

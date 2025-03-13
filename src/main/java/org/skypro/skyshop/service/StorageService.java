@@ -7,9 +7,15 @@ import org.skypro.skyshop.model.product.Product;
 import org.skypro.skyshop.model.product.SimpleProduct;
 import org.skypro.skyshop.model.search.Searchable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 
+class NoSuchProductException extends RuntimeException {
+    public NoSuchProductException() {
+        super();
+    }
+}
 @Service
 public class StorageService {
     private final Map<UUID, Product> storageProducts;
@@ -22,7 +28,6 @@ public class StorageService {
     }
 
     public Optional<Product> getProductById(UUID id) {
-
         return Optional.ofNullable(storageProducts.get(id));
     }
 
