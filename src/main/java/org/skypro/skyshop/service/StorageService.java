@@ -24,7 +24,7 @@ public class StorageService {
 
     public Optional<Product> getProductById(UUID id) {
         Optional<Product> reportArgument = Optional.ofNullable(storageProducts.get(id));
-                   return reportArgument;
+        return reportArgument;
     }
 
     public Map<UUID, Product> getStorageProducts() {

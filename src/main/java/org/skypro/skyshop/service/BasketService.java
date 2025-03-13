@@ -21,14 +21,14 @@ public class BasketService {
 
     public void addProductToBasket(UUID id) {
         Product product = storageService.getProductById(id).orElseThrow(NoSuchProductException::new);
-            productBasket.addToBasket(id);
+        productBasket.addToBasket(id);
     }
 
     public UserBasket getUserBasket() {
         Map<UUID, Integer> basketMap = productBasket.getBasket();
         List<BasketItem> basketItemList = basketMap.entrySet().stream()
                 .map(map -> new BasketItem(storageService.getProductById(map.getKey()).orElseThrow(NoSuchProductException::new), map.getValue()))
-                .collect(Collectors.toCollection(()-> new ArrayList<BasketItem>()));
+                .collect(Collectors.toCollection(() -> new ArrayList<BasketItem>()));
         int total = basketItemList.stream()
                 .mapToInt(price -> price.getQuantity() * price.getProduct().getPrice())
                 .sum();
