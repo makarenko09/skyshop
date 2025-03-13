@@ -4,15 +4,14 @@ import org.skypro.skyshop.model.article.Article;
 import org.skypro.skyshop.model.basket.UserBasket;
 import org.skypro.skyshop.model.product.Product;
 import org.skypro.skyshop.model.search.SearchResult;
-import org.skypro.skyshop.service.BasketService;
-import org.skypro.skyshop.service.SearchService;
-import org.skypro.skyshop.service.StorageService;
+import org.skypro.skyshop.service.*;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.UUID;
 
 @RestController
+//@CustomExceptionHandler
 @RequestMapping("/shop")
 public class ShopController {
     private final StorageService storageService;
@@ -27,7 +26,7 @@ public class ShopController {
 
     @GetMapping("/basket/{id}")
     public void addProduct(@PathVariable("id") UUID id) {
-basketService.addProductToBasket(id);
+        basketService.addProductToBasket(id);
     }
 
     @GetMapping("/basket")

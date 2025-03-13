@@ -11,4 +11,11 @@ public class ShopError {
         this.message = message;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }

@@ -11,11 +11,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 
-class NoSuchProductException extends RuntimeException {
-    public NoSuchProductException() {
-        super();
-    }
-}
 @Service
 public class StorageService {
     private final Map<UUID, Product> storageProducts;
@@ -28,7 +23,8 @@ public class StorageService {
     }
 
     public Optional<Product> getProductById(UUID id) {
-        return Optional.ofNullable(storageProducts.get(id));
+        Optional<Product> reportArgument = Optional.ofNullable(storageProducts.get(id));
+                   return reportArgument;
     }
 
     public Map<UUID, Product> getStorageProducts() {
