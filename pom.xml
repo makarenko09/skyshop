@@ -39,6 +39,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -54,7 +60,8 @@
 		<dependency>
 			<groupId>org.assertj</groupId>
 			<artifactId>assertj-core</artifactId>
-			<version>3.19.0</version>
+			<!--			<version>3.19.0</version>-->
+			<version>3.26.3</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -62,6 +69,12 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>5.14.2</version>
 			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 	</dependencies>
 	<build>
@@ -81,18 +94,26 @@
 				<configuration>
 					<source>9</source>
 					<target>9</target>
+					<compilerArgs>
+						<arg>-verbose</arg>
+						<arg>-Xlint:all,-options,-path
+						</arg>
+					</compilerArgs>
 				</configuration>
 			</plugin>
 <plugin>
 	<groupId>org.apache.maven.plugins</groupId>
 	<artifactId>maven-surefire-plugin</artifactId>
 		<configuration>
-		<useModulePath>false</useModulePath>
-		<argLine>--add-exports java.base/jdk.internal.ref=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED</argLine>
-		<includes>
-			<include>**/*Tests.java</include>
-			<include>**/*Test.java</include>
-		</includes>
+
+				<argLine>-XX:+EnableDynamicAgentLoading -Xshare:off</argLine>
+
+			<!--		<useModulePath>false</useModulePath>-->
+			<!--		<argLine>&#45;&#45;add-exports java.base/jdk.internal.ref=ALL-UNNAMED &#45;&#45;add-opens java.base/java.lang.reflect=ALL-UNNAMED</argLine>-->
+			<!--		<includes>-->
+			<!--			<include>**/*Tests.java</include>-->
+			<!--			<include>**/*Test.java</include>-->
+			<!--		</includes>-->
 	</configuration>
 
 </plugin>

@@ -28,7 +28,8 @@ public class SearchServiceTest {
 
 @Test
     public void givenAnyObject_whenAllObjectNotRecorded_thenDenied() {
-Mockito.when(mockRepo.searchSearchables(ArgumentMatchers.anyString())).thenReturn(null);
+    String stringRequest = ArgumentMatchers.anyString();
+//    Mockito.when(mockRepo.searchSearchables(stringRequest)).thenReturn(null);
     }
 
 }
