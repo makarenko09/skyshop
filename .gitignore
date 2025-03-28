@@ -4,6 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
+!**/src/test/java/org/skypro/skyshop/BasketServiceTest.java
+
 ### STS ###
 .apt_generated
 .classpath

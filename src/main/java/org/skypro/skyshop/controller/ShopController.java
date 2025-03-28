@@ -46,6 +46,7 @@ public class ShopController {
     }
 
     @GetMapping("/search")
+    @ResponseBody
     public Collection<SearchResult> search(@RequestParam("pattern") String pattern) {
         return searchService.searchSearchables(pattern);
     }
