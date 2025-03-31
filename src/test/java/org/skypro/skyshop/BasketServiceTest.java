@@ -2,6 +2,8 @@ package org.skypro.skyshop;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -57,7 +59,7 @@ public class BasketServiceTest {
     }
 
     @Test
-    void getUserBasket_ProductsAreLocatedOnProductBasketClass_ReturnUserBasket() {
+    void getUserBasket_ExistentProduct_ReturnUserBasket() {
         UUID breadId = UUID.randomUUID();
         String breadNameString = "хлеб";
         Product bread = new SimpleProduct(95, breadNameString, breadId);
@@ -69,16 +71,48 @@ public class BasketServiceTest {
         when(productBasket.getBasket()).thenReturn(actualResultsMap);
         when(storageService.getProductById(breadId)).thenReturn(Optional.of(bread));
 
-        List<BasketItem> actualBasketItemList = new ArrayList<BasketItem>(actualResultsMap.get(breadId));
+        List<BasketItem> actualBasketItemList = new ArrayList<BasketItem>(actualResultsMap.get(breadId)+actualResultsMap.get(breadId));
 
         UserBasket userBasket = basketService.getUserBasket();
         List<BasketItem> expectedbasketItemList = userBasket.getBasketItemList();
 
         assertThat(expectedbasketItemList).isNotEmpty();
-        for (BasketItem item : actualBasketItemList) {
+          for (BasketItem item : actualBasketItemList) {
             assertThat(item.getProduct()).isEqualTo(bread);
         }
-        assertFalse(expectedbasketItemList.isEmpty());
     }
 
-}
+    @ParameterizedTest
+    @ValueSource(ints = {1, 2, 3})
+    void getUserBasket_ProductsAreLocatedOnProductBasketClass_ReturnUserBasket(int quantity) {
+        UUID testId = UUID.randomUUID();
+        String testNameString = "test";
+        Product testProduct = new SimpleProduct(100, testNameString, testId);
+        Map<UUID, Integer> actualResultsMap = new HashMap<>();
+        actualResultsMap.put(testId, quantity);
+
+        when(productBasket.getBasket()).thenReturn(actualResultsMap);
+        when(storageService.getProductById(testId)).thenReturn(Optional.of(testProduct));
+        List<BasketItem> actualBasketItemList = new ArrayList<>(actualResultsMap.get(testId));
+        UserBasket expectedUserBasket = basketService.getUserBasket();
+
+//        UserBasket actualUserBasket = new UserBasket(actualBasketItemList,200);
+//        UserBasket expectedUserBasket = basketService.getUserBasket();
+//        UserBasket actualResult = new UserBasket(actualBasketItemList, 200);
+
+
+        assertFalse(expectedUserBasket.getBasketItemList().isEmpty());
+        assertEquals(new UserBasket(actualBasketItemList,200).getTotal(), expectedUserBasket.getTotal());
+        assertEquals(actualBasketItemList, expectedUserBasket.getBasketItemList());
+//
+//        assertFalse(expectedUserBasket.getBasketItemList().isEmpty());
+//        assertEquals(actualUserBasket.getTotal(), expectedUserBasket.getTotal());
+//        assertEquals(actualUserBasket.getBasketItemList(), basketService.getUserBasket().getBasketItemList());
+
+//        for (int i = 0; i < actualBasketItemList.size(); i++) {
+//            BasketItem actualItem = actualBasketItemList.get(i);
+//            BasketItem expectedItem = expectedUserBasket.getBasketItemList().get(i);
+//            assertEquals(actualItem.getProduct(), expectedItem.getProduct());
+        }
+    }
+
