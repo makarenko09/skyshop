@@ -35,4 +35,7 @@ public class BasketService {
         return new UserBasket(basketItemList, total);
     }
 
+    public ProductBasket getProductBasket() {
+        return productBasket;
+    }
 }

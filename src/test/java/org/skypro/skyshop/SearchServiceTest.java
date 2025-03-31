@@ -24,14 +24,10 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 public class SearchServiceTest {
     @InjectMocks
     private SearchService searchService;
-
-    //    SearchService mockSearch = Mockito.mock(SearchService.class);
     @Spy
     private StorageService storageService;
     @Mock
     private SearchResult searchResult;
-    //    @Mock
-    //    private Searchable searchable;
 
     @Test
     void searchSomeAnyProducct_nonExistentProduct_returnEmptyList() {
@@ -39,21 +35,15 @@ public class SearchServiceTest {
         assertEquals(List.of(), searchService.searchSearchables("nonExistentProduct"));
     }
 
-    //Поиск в случае, если объекты в
-    //StorageService
-    // есть, но нет подходящего.
     @Test
     void searchAnotherProduct_ProductsAreLocatedOnStorage_returnEmptyList() {
         UUID someId = UUID.fromString("00000000-0000-0000-0000-000000000001");
         String anyProductName = "Неивестный продукт";
-
         Searchable someAnyProduct = new SimpleProduct(77, anyProductName, someId);
 
         Mockito.when(storageService.getAllStorageValue()).thenReturn(List.of());
 
         SearchResult expectedResult = searchResult.fromSearchable(someAnyProduct);
-
-        List<SearchResult> actualResults = searchService.searchSearchables(anyProductName);
 
         assertEquals(List.of(), searchService.searchSearchables(anyProductName));
         assertNotEquals(List.of(someAnyProduct), expectedResult);
@@ -71,7 +61,6 @@ public class SearchServiceTest {
         List<SearchResult> actualResults = searchService.searchSearchables(breadNameString);
 
         assertThat(actualResults).isNotEmpty();
-
         assertThat(actualResults.get(0))
                 .usingRecursiveComparison()
                 .isEqualTo(expectedResult);

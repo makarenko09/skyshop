@@ -1,13 +1,10 @@
 package org.skypro.skyshop.service;
 
-import org.apache.coyote.Response;
 import org.skypro.skyshop.controller.ShopController;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.Controller;
 
 import java.time.LocalDateTime;
 
